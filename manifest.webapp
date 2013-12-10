@@ -1,0 +1,21 @@
+{
+    "description": "Carrier Info",
+    "developer": {
+        "name": "Mozilla",
+        "url": "http://mozilla.org"
+    },
+    "icons": {
+        "128": "/icon-128.png"
+    },
+    "launch_path": "/index.html",
+    "name": "Carrier Info",
+    "orientation": ["portrait-primary"],
+    "permissions": {
+        "mobilenetwork": {"description": "To detect mobile connection information."}
+    },
+    "type": "privileged",
+    "version": "0.0.5",
+    "messages": [
+        {"mobilenetwork": "/index.html"}
+    ]
+}
