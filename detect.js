@@ -44,7 +44,7 @@
     var i;
     var connData;
     for (i = 0; i < conn.length; i++) {
-      output.push('<li>' + JSON.stringify(conn[i]) + '</li>');
+      output.push('<li>' + JSON.stringify(conn[i], null, 2) + '</li>');
     }
   }
   ul.innerHTML = output.join('\n');
