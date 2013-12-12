@@ -1,4 +1,23 @@
 (function() {
+  function printObject(obj, maxDepth, prefix) {
+    var result = '';
+    if (!prefix) {
+      prefix = '';
+    }
+    for (var key in obj) {
+      if (typeof obj[key] == 'object') {
+        if (maxDepth !== undefined && maxDepth <= 1) {
+          result += (prefix + key + '=object [max depth reached]\n');
+        } else {
+          result += print(obj[key], maxDepth ? maxDepth - 1 : maxDepth, prefix + key + '.');
+        }
+      } else {
+        result += (prefix + key + '=' + obj[key] + '\n');
+      }
+    }
+    return result;
+  }
+
   document.querySelector('.refresh').addEventListener('click', function() {
     window.location.reload();
   }, false);
@@ -41,15 +60,7 @@
   if (!conn) {
     output.push('<li>Connections unavailable</li>');
   } else {
-    var i;
-    var connData;
-    for (i = 0; i < conn.length; i++) {
-      output.push('<li><ul>');
-      for (var p in conn[i]) {
-        output.push('<li>' + p + ': ' + conn[i][p] + '</li>');
-      }
-      output.push('</ul></li>');
-    }
+    output.push(printObject(conn));
   }
   ul.innerHTML = output.join('\n');
 })();
