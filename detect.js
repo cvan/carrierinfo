@@ -44,7 +44,11 @@
     var i;
     var connData;
     for (i = 0; i < conn.length; i++) {
-      output.push('<li>' + JSON.stringify(conn[i], null, 2) + '</li>');
+      output.push('<li><ul>');
+      for (var p in conn[i]) {
+        output.push('<li>' + p + ': ' + conn[i][p] + '</li>');
+      }
+      output.push('</ul></li>');
     }
   }
   ul.innerHTML = output.join('\n');
