@@ -9,7 +9,7 @@
         if (maxDepth !== undefined && maxDepth <= 1) {
           result += (prefix + key + '=object [max depth reached]\n');
         } else {
-          result += print(obj[key], maxDepth ? maxDepth - 1 : maxDepth, prefix + key + '.');
+          result += printObject(obj[key], maxDepth ? maxDepth - 1 : maxDepth, prefix + key + '.');
         }
       } else {
         result += (prefix + key + '=' + obj[key] + '\n');
