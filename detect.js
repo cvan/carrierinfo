@@ -1,21 +1,35 @@
 (function() {
-  function printObject(obj, maxDepth, prefix) {
-    var result = '';
-    if (!prefix) {
-      prefix = '';
-    }
+  function parseObject(obj, maxDepth, prefix) {
+    var result = [];
+    var value;
+    prefix = prefix || '';
     for (var key in obj) {
-      if (typeof obj[key] == 'object') {
+      value = obj[key];
+      if (value && typeof value == 'object') {
         if (maxDepth !== undefined && maxDepth <= 1) {
-          result += (prefix + key + '=object [max depth reached]\n');
+          result.push([prefix + key, 'object [max depth reached]']);
         } else {
-          result += printObject(obj[key], maxDepth ? maxDepth - 1 : maxDepth, prefix + key + '.');
+          var children = parseObject(value,
+                                     maxDepth ? maxDepth - 1 : maxDepth,
+                                     prefix + key + '.');
+          result.concat(children);
         }
       } else {
-        result += (prefix + key + '=' + obj[key] + '\n');
+        result.push([prefix + key,
+                     typeof value == 'function' ? 'function' : value]);
       }
     }
     return result;
+  }
+
+  function printObject(obj, maxDepth, prefix) {
+    var result = '';
+    var parsed = parseObject(obj, maxDepth, prefix);
+    return parsed.sort(function (a, b) {
+      return a[0].toLowerCase() > b[0].toLowerCase();
+    }).map(function (parts) {
+      return parts[0] + '=' + parts[1];
+    }).join('\n');
   }
 
   document.querySelector('.refresh').addEventListener('click', function() {
@@ -25,32 +39,23 @@
   var output = [];
 
   var conn = navigator.mozMobileConnection;
-  var dl = document.querySelector('dl.mmc');
+  var ul = document.querySelector('ul.mmc');
   try {
     console.log('navigator.mozMobileConnection:', JSON.stringify(conn));
   } catch(e) {
-    output.push('<dt>Cannot serialize</dt><dd></dd>');
+    output.push('<li>Cannot serialize</li>');
   }
   if (!conn) {
-    output.push('<dt>Connection unavailable</dt><dd></dd>');
+    output.push('<li>Connection unavailable</li>');
   } else {
-    output.push('<dt>lastKnownNetwork</dt><dd>' + conn.lastKnownNetwork + '</dd>');
-    output.push('<dt>cardState</dt><dd>' + conn.cardState + '</dd>');
-    output.push('<dt>data</dt><dd>' + conn.data + '</dd>');
-    output.push('<dt>iccInfo.mcc</dt><dd>' + conn.iccInfo.mcc + '</dd>');
-    output.push('<dt>iccInfo.mnc</dt><dd>' + conn.iccInfo.mnc + '</dd>');
-    output.push('<dt>iccInfo.iccid</dt><dd>' + conn.iccInfo.iccid + '</dd>');
-    output.push('<dt>voice.cell.gsmLocationAreaCode</dt><dd>' + conn.voice.cell.gsmLocationAreaCode + '</dd>');
-    output.push('<dt>voice.cell.gsmCellId</dt><dd>' + conn.voice.cell.gsmCellId + '</dd>');
-    output.push('<dt>voice.connected</dt><dd>' + conn.voice.connected + '</dd>');
-    output.push('<dt>voice.emergencyCallsOnly</dt><dd>' + conn.voice.emergencyCallsOnly + '</dd>');
+    output.push('<li>' + printObject(conn) + '</li>');
   }
-  dl.innerHTML = output.join('\n');
+  ul.innerHTML = output.join('\n');
 
   output = [];
 
   conn = navigator.mozMobileConnections;
-  var ul = document.querySelector('ol.mmcs');
+  var ol = document.querySelector('ol.mmcs');
   try {
     console.log('navigator.mozMobileConnections:', JSON.stringify(conn));
   } catch(e) {
@@ -62,5 +67,7 @@
   } else {
     output.push(printObject(conn));
   }
-  ul.innerHTML = output.join('\n');
+  ol.innerHTML = output.join('\n');
+
+  document.querySelector('.working').remove();
 })();
