@@ -11,7 +11,8 @@
       h2 { background: hotpink; color: #fff; font-size: 16px; padding: 5px 10px; }
       code { color: hotpink; float: right; font-size: 12px; }
       hr { border: 1px solid #fff; margin: 15px 0; }
-      dl, ol, ul { margin: 5px 15px; padding: 0 0 0 35px; }
+      ol, ul { margin: 5px 15px; padding: 0 0 0 35px; }
+      ul { list-style-type: none; }
       .info { margin-bottom: 5px; }
       .refresh { background: #ddd; display: block; }
       .refresh:active { opacity: .4; }
@@ -23,11 +24,14 @@
     <a href="#" class="info refresh">Refresh</a>
     <section>
       <h2>navigator.mozMobileConnection</h2>
-      <dl class="mmc"></dl>
+      <ul class="mmc"></ul>
     </section>
     <section>
       <h2>navigator.mozMobileConnections</h2>
       <ol class="code mmcs" start="0"></ol>
+    </section>
+    <section class="working">
+        <h2>working...</h2>
     </section>
   </body>
   <script type="text/javascript" src="detect.js"></script>
