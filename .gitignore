@@ -4,6 +4,7 @@
 *.po.js
 *.styl.css
 *.swp
+*.zip
 *~
 .#*
 .DS_Store
@@ -14,6 +15,5 @@
 .emacs.d/site/nxhtml
 .emacs.d/tramp
 .emacs.desktop
-.ipython
 .virtualenvs
 .zsh/cache
