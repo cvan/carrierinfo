@@ -17,3 +17,5 @@
 .emacs.desktop
 .virtualenvs
 .zsh/cache
+_tmp/
+carrierinfo-*/
