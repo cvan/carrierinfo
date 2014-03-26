@@ -12,3 +12,9 @@ zip:
 	@cd $(TMP) && zip -q -r ../$(NAME)_$(VERSION_INT).zip * && cd ../
 	@rm -rf $(TMP)
 	@echo "Created file: $(NAME)_$(VERSION_INT).zip"
+
+submit:
+	@open 'https://marketplace.firefox.com/developers/app/carrier-info/status#upload-new-version'
+
+approve:
+	@open 'https://marketplace.firefox.com/reviewers/apps/review/carrier-info#review-actions'
